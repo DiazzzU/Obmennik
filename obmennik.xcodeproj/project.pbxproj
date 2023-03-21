@@ -16,6 +16,7 @@
 		28BB4AEA29C87E0800380DEF /* obmennikTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BB4AE929C87E0800380DEF /* obmennikTests.swift */; };
 		28BB4AF429C87E0800380DEF /* obmennikUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BB4AF329C87E0800380DEF /* obmennikUITests.swift */; };
 		28BB4AF629C87E0800380DEF /* obmennikUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BB4AF529C87E0800380DEF /* obmennikUITestsLaunchTests.swift */; };
+		28BB4B0529C908D500380DEF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28BB4B0429C908D500380DEF /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		28BB4AEF29C87E0800380DEF /* obmennikUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = obmennikUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		28BB4AF329C87E0800380DEF /* obmennikUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obmennikUITests.swift; sourceTree = "<group>"; };
 		28BB4AF529C87E0800380DEF /* obmennikUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = obmennikUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		28BB4B0429C908D500380DEF /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,9 @@
 		28BB4AD129C87E0200380DEF /* obmennik */ = {
 			isa = PBXGroup;
 			children = (
+				28BB4B0A29C9BEDE00380DEF /* Resources */,
+				28BB4B0929C9BEC000380DEF /* Storyboards */,
+				28BB4B0829C9BEAD00380DEF /* UI */,
 				28BB4AD229C87E0200380DEF /* AppDelegate.swift */,
 				28BB4AD429C87E0200380DEF /* SceneDelegate.swift */,
 				28BB4AD629C87E0200380DEF /* ViewController.swift */,
@@ -106,6 +111,7 @@
 				28BB4ADB29C87E0700380DEF /* Assets.xcassets */,
 				28BB4ADD29C87E0700380DEF /* LaunchScreen.storyboard */,
 				28BB4AE029C87E0700380DEF /* Info.plist */,
+				28BB4B0429C908D500380DEF /* HomeViewController.swift */,
 			);
 			path = obmennik;
 			sourceTree = "<group>";
@@ -125,6 +131,35 @@
 				28BB4AF529C87E0800380DEF /* obmennikUITestsLaunchTests.swift */,
 			);
 			path = obmennikUITests;
+			sourceTree = "<group>";
+		};
+		28BB4B0829C9BEAD00380DEF /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		28BB4B0929C9BEC000380DEF /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		28BB4B0A29C9BEDE00380DEF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				28BB4B0B29C9BEEA00380DEF /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		28BB4B0B29C9BEEA00380DEF /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +296,7 @@
 				28BB4AD729C87E0200380DEF /* ViewController.swift in Sources */,
 				28BB4AD329C87E0200380DEF /* AppDelegate.swift in Sources */,
 				28BB4AD529C87E0200380DEF /* SceneDelegate.swift in Sources */,
+				28BB4B0529C908D500380DEF /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,6 +481,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -473,6 +510,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
