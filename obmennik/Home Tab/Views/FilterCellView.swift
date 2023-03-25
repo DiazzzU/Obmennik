@@ -1,8 +1,6 @@
 import UIKit
 
 class FilterCellView: UICollectionViewCell {
-    var sortState = 0
-    var cellName = "Default"
     static let identifier = "filterCellViewId"
     
     lazy var textLabel: UILabel = {
@@ -10,7 +8,7 @@ class FilterCellView: UICollectionViewCell {
         textLabel.textColor = ColorPalette.secondaryOfferColor
         textLabel.font = .boldSystemFont(ofSize: 16)
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.text = cellName
+        textLabel.text = "Filter"
         return textLabel
     }()
     lazy var upArrowImage: UIImageView = {
@@ -30,21 +28,17 @@ class FilterCellView: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        sortState = 0
     }
     
-    func getCellSize() {
-        let fontAttributes = [NSAttributedString.Key.font: textLabel.font]
-        let size = (textLabel.text as! NSString).size(withAttributes: fontAttributes)
-        print(size)
+    func setupData(cellName: String) {
+        textLabel.text = cellName
     }
     
     func setupLayers(cellName: String) {
-        self.cellName = cellName
-        textLabel.text = cellName
         self.addSubview(textLabel)
         self.addSubview(upArrowImage)
         self.addSubview(downArrowImage)
+        setupData(cellName: cellName)
         NSLayoutConstraint.activate([
             textLabel.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             textLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 4),

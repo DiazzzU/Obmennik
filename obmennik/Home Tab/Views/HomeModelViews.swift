@@ -1,16 +1,7 @@
-//
-//  HomeModelViews.swift
-//  obmennik
-//
-//  Created by Dias Ussenov on 21.03.2023.
-//
-
 import UIKit
 
 
 class HomeViewModels: HIG {
-    
-    
     lazy var profileButton: UIButton = {
         let b = UIButton(type: .system)
         b.setImage(UIImage(named: "userProfileLogo"), for: .normal)
@@ -27,7 +18,7 @@ class HomeViewModels: HIG {
         return b
     }()
     
-    lazy var myTable: UITableView = {
+    lazy var offerTableView: UITableView = {
         let t = UITableView()
         t.showsVerticalScrollIndicator = false
         t.backgroundColor = .clear
@@ -61,18 +52,16 @@ class HomeViewModels: HIG {
         return b
     }()
     
-    lazy var myCollection: UICollectionView = {
+    lazy var filterCollectionView: UICollectionView = {
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 5, bottom: 0, right: 10)
-        //layout.itemSize = CGSize(width: 116, height: 27)
         layout.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(FilterCellView.self, forCellWithReuseIdentifier: FilterCellView.identifier)
-        //collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "MyCell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.alwaysBounceHorizontal = true
         return collectionView
@@ -110,13 +99,12 @@ class HomeViewModels: HIG {
     }
     
     func setupLayers(parrent: UIView) {
-        
         parrent.addSubview(profileButton)
         parrent.addSubview(searchButton)
-        parrent.addSubview(myTable)
+        parrent.addSubview(offerTableView)
         parrent.addSubview(watchlistTabButton)
         parrent.addSubview(offerTabButton)
-        parrent.addSubview(myCollection)
+        parrent.addSubview(filterCollectionView)
         
         NSLayoutConstraint.activate([
             profileButton.widthAnchor.constraint(equalToConstant: 24),
@@ -129,10 +117,10 @@ class HomeViewModels: HIG {
             searchButton.topAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.topAnchor, constant: 2),
             searchButton.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: -26),
             
-            myTable.topAnchor.constraint(equalTo: myCollection.bottomAnchor, constant: 0),
-            myTable.leadingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            myTable.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            myTable.bottomAnchor.constraint(equalTo: parrent.bottomAnchor),
+            offerTableView.topAnchor.constraint(equalTo: filterCollectionView.bottomAnchor, constant: 0),
+            offerTableView.leadingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            offerTableView.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            offerTableView.bottomAnchor.constraint(equalTo: parrent.bottomAnchor),
             
             watchlistTabButton.widthAnchor.constraint(equalToConstant: 87),
             watchlistTabButton.heightAnchor.constraint(equalToConstant: 24),
@@ -144,11 +132,11 @@ class HomeViewModels: HIG {
             offerTabButton.topAnchor.constraint(equalTo: profileButton.safeAreaLayoutGuide.bottomAnchor, constant: 37),
             offerTabButton.leadingAnchor.constraint(equalTo: watchlistTabButton.safeAreaLayoutGuide.trailingAnchor, constant: 20),
             
-            myCollection.heightAnchor.constraint(equalToConstant: 50),
-            myCollection.topAnchor.constraint(equalTo: offerTabButton.safeAreaLayoutGuide.bottomAnchor, constant: 0),
-            myCollection.leadingAnchor.constraint(equalTo: watchlistTabButton.leadingAnchor, constant: -10),
-            myCollection.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            myCollection.bottomAnchor.constraint(equalTo: myTable.safeAreaLayoutGuide.topAnchor, constant: -10),
+            filterCollectionView.heightAnchor.constraint(equalToConstant: 50),
+            filterCollectionView.topAnchor.constraint(equalTo: offerTabButton.safeAreaLayoutGuide.bottomAnchor, constant: 0),
+            filterCollectionView.leadingAnchor.constraint(equalTo: watchlistTabButton.leadingAnchor, constant: -10),
+            filterCollectionView.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            filterCollectionView.bottomAnchor.constraint(equalTo: offerTableView.safeAreaLayoutGuide.topAnchor, constant: -10),
         ])
     }
     

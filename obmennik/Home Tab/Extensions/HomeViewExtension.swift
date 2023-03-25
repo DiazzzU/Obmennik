@@ -1,21 +1,14 @@
-//
-//  HomeViewExtension.swift
-//  obmennik
-//
-//  Created by Dias Ussenov on 21.03.2023.
-//
-
 import UIKit
 
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = OfferCellView()
-        cell.setupCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "offerCellId", for: indexPath) as! OfferCellView
+        cell.setupCell(data: offers[indexPath.row])
         cell.backgroundColor = .clear
         return cell
     }
@@ -67,7 +60,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             selectedFilterIndex = indexPath.row
             selectedFilterState = 0
         }
-        viewModels.myTable.reloadData()
+        viewModels.offerTableView.reloadData()
         collectionView.reloadData()
     }
     
@@ -77,32 +70,5 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let fontAttributes = [NSAttributedString.Key.font: font]
         let size = (filterName as NSString).size(withAttributes: fontAttributes as [NSAttributedString.Key : Any])
         return CGSize(width: size.width + 40, height: 27)
-    }
-}
-
-extension UIColor {
-    func image(_ size: CGSize = CGSize(width: 1, height: 1)) -> UIImage {
-        return UIGraphicsImageRenderer(size: size).image { rendererContext in
-            self.setFill()
-            rendererContext.fill(CGRect(origin: .zero, size: size))
-        }
-    }
-}
-
-extension UIImage {
-    func mergeWith(topImage: UIImage) -> UIImage {
-        let bottomImage = self
-
-        UIGraphicsBeginImageContext(size)
-
-
-        let areaSize = CGRect(x: 0, y: 0, width: bottomImage.size.width, height: bottomImage.size.height)
-        bottomImage.draw(in: areaSize)
-
-        topImage.draw(in: areaSize, blendMode: .normal, alpha: 1.0)
-
-        let mergedImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        return mergedImage
     }
 }
