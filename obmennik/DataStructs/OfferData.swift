@@ -17,9 +17,9 @@ struct OfferStruct {
     var amountToSell: Float
     var amountToBuy: Float
     var exchangeRate: Float
-    var creator: CreatorStruct
+    var creator: UserStruct
     
-    init(fromCurrency: CurrencyStruct, toCurrency: CurrencyStruct, amountToBuy: Float, amountToSell: Float, creator: CreatorStruct) {
+    init(fromCurrency: CurrencyStruct, toCurrency: CurrencyStruct, amountToBuy: Float, amountToSell: Float, creator: UserStruct) {
         self.fromCurrency = fromCurrency
         self.toCurrency = toCurrency
         self.amountToBuy = amountToBuy
@@ -28,7 +28,7 @@ struct OfferStruct {
         self.creator = creator
     }
     
-    init(fromCurrency: CurrencyStruct, toCurrency: CurrencyStruct, amountToBuy: Float, exchangeRate: Float, creator: CreatorStruct) {
+    init(fromCurrency: CurrencyStruct, toCurrency: CurrencyStruct, amountToBuy: Float, exchangeRate: Float, creator: UserStruct) {
         self.fromCurrency = fromCurrency
         self.toCurrency = toCurrency
         self.amountToBuy = amountToBuy
@@ -37,7 +37,7 @@ struct OfferStruct {
         self.creator = creator
     }
     
-    init(fromCurrency: CurrencyStruct, toCurrency: CurrencyStruct, amountToSell: Float, exchangeRate: Float, creator: CreatorStruct) {
+    init(fromCurrency: CurrencyStruct, toCurrency: CurrencyStruct, amountToSell: Float, exchangeRate: Float, creator: UserStruct) {
         self.fromCurrency = fromCurrency
         self.toCurrency = toCurrency
         self.amountToBuy = amountToSell * exchangeRate

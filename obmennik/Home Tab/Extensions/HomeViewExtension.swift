@@ -3,7 +3,7 @@ import UIKit
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return offers.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -14,6 +14,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = OfferViewController()
+        vc.setupLayers(homeVC: self, user: user!, data: offers[indexPath.row])
+        self.present(vc, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -29,7 +32,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return filterNames.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -38,14 +41,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         if selectedFilterIndex == indexPath.row {
             cell.layer.cornerRadius = 14
             cell.backgroundColor = ColorPalette.selectedFilter
+            cell.textLabel.textColor = ColorPalette.mainOfferColor
             if selectedFilterState == 0 {
                 cell.upArrowImage.tintColor = ColorPalette.mainOfferColor
+                cell.downArrowImage.tintColor = ColorPalette.backgroundMain
             } else {
                 cell.downArrowImage.tintColor = ColorPalette.mainOfferColor
+                cell.upArrowImage.tintColor = ColorPalette.backgroundMain
             }
         } else {
             cell.layer.cornerRadius = 14
             cell.backgroundColor = .clear
+            cell.textLabel.textColor = ColorPalette.secondaryOfferColor
             cell.upArrowImage.tintColor = ColorPalette.backgroundMain
             cell.downArrowImage.tintColor = ColorPalette.backgroundMain
         }
@@ -61,6 +68,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             selectedFilterState = 0
         }
         viewModels.offerTableView.reloadData()
+        sortOffers()
         collectionView.reloadData()
     }
     

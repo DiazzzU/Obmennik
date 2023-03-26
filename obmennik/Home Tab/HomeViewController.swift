@@ -2,6 +2,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
+    var user: UserStruct? = nil
+    
     var viewModels: HomeViewModels = HomeViewModels()
     
     var filterNames = ["Rating", "Amount", "Exchange rate"]
@@ -37,16 +39,51 @@ class HomeViewController: UIViewController {
         currencies.append(currency)
     }
     
+    func getCurrency(capitalName: String) -> CurrencyStruct? {
+        for currency in currencies {
+            if currency.capitalName == capitalName {
+                return currency
+            }
+        }
+        return nil
+    }
+    
     func addOffers(offer: OfferStruct) {
         offers.append(offer)
     }
     
-    func setupLayers() {
+    func setupLayers(user: UserStruct) {
+        self.user = user
         viewModels.setupLayers(parrent: view)
     }
     
+    func sortOffers() {
+        offers.sort {
+            switch selectedFilterIndex {
+            case 0:
+                if selectedFilterState == 0 {
+                    return ($0.creator.rating < $1.creator.rating)
+                } else {
+                    return ($1.creator.rating < $0.creator.rating)
+                }
+            case 1:
+                if selectedFilterState == 0 {
+                    return ($0.amountToSell < $1.amountToSell)
+                } else {
+                    return ($1.amountToSell < $0.amountToSell)
+                }
+            default:
+                if selectedFilterState == 0 {
+                    return ($0.exchangeRate < $1.exchangeRate)
+                } else {
+                    return ($1.exchangeRate < $0.exchangeRate)
+                }
+            }
+        }
+        viewModels.offerTableView.reloadData()
+    }
+    
     @objc func handleWatchlistButton(button: UIButton) {
-        print(offers.count)
         viewModels.changeOfferButtonState(offerButton: viewModels.offerTabButton)
         viewModels.changeWatchlistButtonState(watchlistButton: viewModels.watchlistTabButton)
     }
