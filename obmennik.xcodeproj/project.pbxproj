@@ -87,6 +87,7 @@
 		283537C129D0EFE7009F4722 /* NetworkTodoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTodoItem.swift; sourceTree = "<group>"; };
 		283537C229D0EFE7009F4722 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		283537C829D1072E009F4722 /* CurrencyGetQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyGetQuery.swift; sourceTree = "<group>"; };
+		283537CA29D1F0B6009F4722 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2898E52029CDEE210007AEC9 /* FilterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCellView.swift; sourceTree = "<group>"; };
 		2898E52429CE74240007AEC9 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		2898E52829CE75C90007AEC9 /* OfferData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferData.swift; sourceTree = "<group>"; };
@@ -257,6 +258,7 @@
 		28BB4AC629C87E0100380DEF = {
 			isa = PBXGroup;
 			children = (
+				283537CA29D1F0B6009F4722 /* README.md */,
 				28BB4AD129C87E0200380DEF /* obmennik */,
 				28BB4AE829C87E0800380DEF /* obmennikTests */,
 				28BB4AF229C87E0800380DEF /* obmennikUITests */,
