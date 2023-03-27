@@ -28,6 +28,7 @@
 		283537C429D0EFE7009F4722 /* UserCreateQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283537BF29D0EFE7009F4722 /* UserCreateQuery.swift */; };
 		283537C629D0EFE7009F4722 /* NetworkTodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283537C129D0EFE7009F4722 /* NetworkTodoItem.swift */; };
 		283537C729D0EFE7009F4722 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283537C229D0EFE7009F4722 /* NetworkService.swift */; };
+		283537C929D1072E009F4722 /* CurrencyGetQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 283537C829D1072E009F4722 /* CurrencyGetQuery.swift */; };
 		2898E52129CDEE210007AEC9 /* FilterCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2898E52029CDEE210007AEC9 /* FilterCellView.swift */; };
 		2898E52529CE74240007AEC9 /* ImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2898E52429CE74240007AEC9 /* ImageExtension.swift */; };
 		2898E52929CE75C90007AEC9 /* OfferData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2898E52829CE75C90007AEC9 /* OfferData.swift */; };
@@ -85,6 +86,7 @@
 		283537BF29D0EFE7009F4722 /* UserCreateQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCreateQuery.swift; sourceTree = "<group>"; };
 		283537C129D0EFE7009F4722 /* NetworkTodoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTodoItem.swift; sourceTree = "<group>"; };
 		283537C229D0EFE7009F4722 /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		283537C829D1072E009F4722 /* CurrencyGetQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyGetQuery.swift; sourceTree = "<group>"; };
 		2898E52029CDEE210007AEC9 /* FilterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCellView.swift; sourceTree = "<group>"; };
 		2898E52429CE74240007AEC9 /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		2898E52829CE75C90007AEC9 /* OfferData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferData.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 			children = (
 				283537BF29D0EFE7009F4722 /* UserCreateQuery.swift */,
 				283537C129D0EFE7009F4722 /* NetworkTodoItem.swift */,
+				283537C829D1072E009F4722 /* CurrencyGetQuery.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -450,6 +453,7 @@
 				2803A1D329CA3BB3006F4A40 /* DesignElements.swift in Sources */,
 				283537C429D0EFE7009F4722 /* UserCreateQuery.swift in Sources */,
 				2898E52D29CE7AD40007AEC9 /* CurrencyData.swift in Sources */,
+				283537C929D1072E009F4722 /* CurrencyGetQuery.swift in Sources */,
 				283537A729CFC229009F4722 /* ButtonExtensions.swift in Sources */,
 				283537AC29D0532D009F4722 /* OfferViewController.swift in Sources */,
 				283537AE29D05356009F4722 /* OfferViewModels.swift in Sources */,

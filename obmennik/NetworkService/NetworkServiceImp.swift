@@ -17,6 +17,15 @@ final class NetworkServiceImp: NetworkService {
             completion: completion
         )
     }
+    
+    func getCurrencies(
+        completion: @escaping (Result<[CurrencyGetQuery], Error>) -> Void
+    ) {
+        networkClient.processRequest(
+            request: createGetCurrenciesRequest(),
+            completion: completion
+        )
+    }
 
     // MARK: - Private
 
@@ -27,6 +36,16 @@ final class NetworkServiceImp: NetworkService {
                 Constants.contentTypeKey: Constants.contentTypeValue
             ],
             httpMethod: .post
+        )
+    }
+    
+    private func createGetCurrenciesRequest() -> HTTPRequest {
+        HTTPRequest(
+            route: "\(Constants.baseurl)/getCurrencies/",
+            headers: [
+                Constants.contentTypeKey: Constants.contentTypeValue
+            ],
+            httpMethod: .get
         )
     }
 }
