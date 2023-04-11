@@ -1,4 +1,4 @@
-struct UserStruct {
+struct UserStruct: Codable{
     var name: String
     var rating: Float
     var id: Int

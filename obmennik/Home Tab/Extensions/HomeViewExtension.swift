@@ -3,20 +3,41 @@ import UIKit
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return offers.count
+        switch tableView.tag {
+        case 1:
+            return offers.count
+        case 2:
+            return watchList.count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "offerCellId", for: indexPath) as! OfferCellView
-        cell.setupCell(data: offers[indexPath.row])
         cell.backgroundColor = .clear
+        switch tableView.tag {
+        case 1:
+            cell.setupCell(data: offers[indexPath.row])
+        case 2:
+            cell.setupCell(data: watchList[indexPath.row])
+        default: break
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(offers[indexPath.row])
         let vc = OfferViewController()
-        vc.setupLayers(homeVC: self, user: user!, data: offers[indexPath.row])
-        self.present(vc, animated: true)
+        switch tableView.tag {
+        case 1:
+            vc.setupLayers(homeVC: self, user: user!, data: offers[indexPath.row])
+        case 2:
+            vc.setupLayers(homeVC: self, user: user!, data: watchList[indexPath.row])
+        default: break
+        }
+        let navVC = UINavigationController(rootViewController: vc)
+        self.present(navVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

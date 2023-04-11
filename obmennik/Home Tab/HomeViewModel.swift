@@ -20,10 +20,22 @@ class HomeViewModels: HIG {
     
     lazy var offerTableView: UITableView = {
         let t = UITableView()
+        t.tag = 1
         t.showsVerticalScrollIndicator = false
         t.backgroundColor = .clear
         t.register(OfferCellView.self, forCellReuseIdentifier: OfferCellView.identifier)
         t.translatesAutoresizingMaskIntoConstraints = false
+        return t
+    }()
+    
+    lazy var watchlistTableView: UITableView = {
+        let t = UITableView()
+        t.tag = 2
+        t.showsVerticalScrollIndicator = false
+        t.backgroundColor = .clear
+        t.register(OfferCellView.self, forCellReuseIdentifier: OfferCellView.identifier)
+        t.translatesAutoresizingMaskIntoConstraints = false
+        t.isHidden = true
         return t
     }()
     
@@ -99,37 +111,43 @@ class HomeViewModels: HIG {
     }
     
     func setupLayers(parrent: UIView) {
-        parrent.addSubview(profileButton)
-        parrent.addSubview(searchButton)
+        //parrent.addSubview(profileButton)
+        //parrent.addSubview(searchButton)
         parrent.addSubview(offerTableView)
         parrent.addSubview(watchlistTabButton)
         parrent.addSubview(offerTabButton)
         parrent.addSubview(filterCollectionView)
+        parrent.addSubview(watchlistTableView)
+        
+        
         
         NSLayoutConstraint.activate([
             profileButton.widthAnchor.constraint(equalToConstant: 24),
             profileButton.heightAnchor.constraint(equalToConstant: 24),
-            profileButton.topAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.topAnchor, constant: 2),
-            profileButton.leadingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.leadingAnchor, constant: 28),
             
-            searchButton.widthAnchor.constraint(equalToConstant: 24),
-            searchButton.heightAnchor.constraint(equalToConstant: 24),
-            searchButton.topAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.topAnchor, constant: 2),
-            searchButton.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: -26),
+            //searchButton.widthAnchor.constraint(equalToConstant: 24),
+            //searchButton.heightAnchor.constraint(equalToConstant: 24),
+            //searchButton.topAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.topAnchor, constant: 2),
+            //searchButton.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: -26),
             
             offerTableView.topAnchor.constraint(equalTo: filterCollectionView.bottomAnchor, constant: 0),
             offerTableView.leadingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.leadingAnchor, constant: 0),
             offerTableView.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: 0),
             offerTableView.bottomAnchor.constraint(equalTo: parrent.bottomAnchor),
             
+            watchlistTableView.topAnchor.constraint(equalTo: filterCollectionView.topAnchor, constant: 10),
+            watchlistTableView.bottomAnchor.constraint(equalTo: parrent.bottomAnchor),
+            watchlistTableView.leadingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.leadingAnchor, constant: 0),
+            watchlistTableView.trailingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.trailingAnchor, constant: 0),
+            
             watchlistTabButton.widthAnchor.constraint(equalToConstant: 87),
             watchlistTabButton.heightAnchor.constraint(equalToConstant: 24),
-            watchlistTabButton.topAnchor.constraint(equalTo: profileButton.safeAreaLayoutGuide.bottomAnchor, constant: 37),
+            watchlistTabButton.topAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.topAnchor, constant: 30),
             watchlistTabButton.leadingAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.leadingAnchor, constant: 24),
             
             offerTabButton.widthAnchor.constraint(equalToConstant: 60),
             offerTabButton.heightAnchor.constraint(equalToConstant: 24),
-            offerTabButton.topAnchor.constraint(equalTo: profileButton.safeAreaLayoutGuide.bottomAnchor, constant: 37),
+            offerTabButton.topAnchor.constraint(equalTo: watchlistTabButton.safeAreaLayoutGuide.topAnchor),
             offerTabButton.leadingAnchor.constraint(equalTo: watchlistTabButton.safeAreaLayoutGuide.trailingAnchor, constant: 20),
             
             filterCollectionView.heightAnchor.constraint(equalToConstant: 50),

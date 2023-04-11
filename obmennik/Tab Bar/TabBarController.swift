@@ -3,8 +3,12 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     var homeVC: HomeViewController? = nil
-    var chatVC: UIViewController? = nil
+    var chatVC: ChatViewController? = nil
     var user: UserStruct? = nil
+    var currencies: [CurrencyStruct] = []
+    var offers: [OfferStruct] = []
+    var watchlist: [OfferStruct] = []
+    var userOffers: [OfferStruct] = []
     
     private lazy var createButton: UIButton = {
         let middleButton = UIButton()
@@ -32,15 +36,23 @@ final class TabBarController: UITabBarController {
         self.present(vc, animated: true)
     }
     
-    func setupTabBar(user: UserStruct) {
+    func setupTabBar(user: UserStruct, currencies: [CurrencyStruct], offers: [OfferStruct], watchlist: [OfferStruct], userOffers: [OfferStruct]) {
         self.user = user
+        self.currencies = currencies
+        self.offers = offers
+        self.watchlist = watchlist
+        self.userOffers = userOffers
+        
         homeVC = HomeViewController()
         setupHomeVC()
-        chatVC = UIViewController()
+        let navVC1 = UINavigationController(rootViewController: homeVC!)
+        
+        let sessionVC = SessionViewController()
+        let navVC2 = UINavigationController(rootViewController: sessionVC)
         setupChatVC()
         
-        let viewControllers = [homeVC!, chatVC!]
-        setViewControllers(viewControllers, animated: false)
+        let viewControllers = [navVC1, navVC2]
+        setViewControllers(viewControllers, animated: true)
         
         setupImages()
         setupUI()
@@ -60,31 +72,10 @@ final class TabBarController: UITabBarController {
     }
     
     func setupChatVC() {
-        
     }
     
     func setupHomeVC() {
-        let rubCurrency = CurrencyStruct(fullName: "ruble", shortName: "rub", unicodeCharacter: "\u{20BD}", logoColor: .blue)
-        let kztCurrency = CurrencyStruct(fullName: "tenge", shortName: "kzt", unicodeCharacter: "\u{20B8}", logoColor: .systemGreen)
-        let usdCurrency = CurrencyStruct(fullName: "dollar", shortName: "usd", unicodeCharacter: "\u{0024}", logoColor: .systemYellow)
-        let euCurrency = CurrencyStruct(fullName: "euro", shortName: "eu", unicodeCharacter: "\u{20AC}", logoColor: .systemRed)
-        
-        homeVC!.addCurrency(currency: rubCurrency)
-        homeVC!.addCurrency(currency: kztCurrency)
-        homeVC!.addCurrency(currency: usdCurrency)
-        homeVC!.addCurrency(currency: euCurrency)
-        
-        let offer1 = OfferStruct(fromCurrency: rubCurrency, toCurrency: kztCurrency, amountToSell: 10000, exchangeRate: 5.7, creator: UserStruct(name: "Dias", rating: 5.0, id: 0))
-        let offer2 = OfferStruct(fromCurrency: kztCurrency, toCurrency: rubCurrency, amountToBuy: 10000, exchangeRate: 0.2, creator: UserStruct(name: "Dias", rating: 5.0, id: 0))
-        let offer3 = OfferStruct(fromCurrency: usdCurrency, toCurrency: rubCurrency, amountToSell: 100, exchangeRate: 60, creator: UserStruct(name: "Beka", rating: 5.0, id: 0))
-        let offer4 = OfferStruct(fromCurrency: euCurrency, toCurrency: kztCurrency, amountToSell: 40, exchangeRate: 500, creator: UserStruct(name: "Beka", rating: 5.0, id: 0))
-        
-        homeVC!.addOffers(offer: offer1)
-        homeVC!.addOffers(offer: offer2)
-        homeVC!.addOffers(offer: offer3)
-        homeVC!.addOffers(offer: offer4)
-        
-        homeVC!.setupLayers(user: user!)
+        homeVC!.setupLayers(user: user!, currencies: self.currencies, offers: self.offers, watchlist: self.watchlist, userOffers: self.userOffers)
     }
     
     private func setupImages() {

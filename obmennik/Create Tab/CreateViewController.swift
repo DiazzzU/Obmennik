@@ -6,6 +6,7 @@ final class CreateViewController: UIViewController {
     
     var viewModels: CreateViewModel = CreateViewModel()
     var homeVC: HomeViewController? = nil
+    
     var changeLog: [Int] = [0, 2, 1]
     var currentExchangeRate: Float = 1
     var currentSellAmount: Float = 1
@@ -13,9 +14,21 @@ final class CreateViewController: UIViewController {
     var currentFromCurrency: String = "RUB"
     var currentToCurrency: String = "KZT"
     
+    var fromCurrency: CurrencyStruct? = nil
+    var toCurrency: CurrencyStruct? = nil
+    
+    var networkClient: NetworkClientImp? = nil
+    var networkService: NetworkServiceImp? = nil
+    
+    var currentOpenTextField: UITextField? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = ColorPalette.backgroundMain
+        
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.addTarget(self, action: #selector(didTapView))
+        self.view.addGestureRecognizer(tapRecognizer)
         
         viewModels.amountToSellField.delegate = self
         viewModels.toRateField.delegate = self
@@ -48,15 +61,36 @@ final class CreateViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func requestCompletion(offer: OfferQuery) {
+        homeVC?.addOffers(offer: OfferStruct(offerId: offer.offerId, fromCurrency: fromCurrency!, toCurrency: toCurrency!,
+                                             amountToBuy: offer.toAmount, amountToSell: offer.fromAmount,
+                                             creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id), isInWatchList: offer.isOnWatchlist))
+        homeVC?.viewModels.offerTableView.reloadData()
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @objc func handleCreateButton() {
-        let fromCurrency = homeVC?.getCurrency(capitalName: currentFromCurrency)
-        let toCurrency = homeVC?.getCurrency(capitalName: currentToCurrency)
+        fromCurrency = homeVC?.getCurrency(capitalName: currentFromCurrency)
+        toCurrency = homeVC?.getCurrency(capitalName: currentToCurrency)
         
         if fromCurrency != nil && toCurrency != nil {
-            let offer = OfferStruct(fromCurrency: fromCurrency!, toCurrency: toCurrency!, amountToBuy: currentBuyAmount, amountToSell: currentSellAmount, creator: user!)
-            homeVC?.addOffers(offer: offer)
-            homeVC?.viewModels.offerTableView.reloadData()
-            self.dismiss(animated: true, completion: nil)
+            networkClient = NetworkClientImp(urlSession: .init(configuration: .default))
+            networkService = NetworkServiceImp(networkClient: networkClient!)
+            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+                guard let self = self else { return }
+                self.networkService!.createOffer(offer: OfferCreateQuery(fromCurrencyId: self.fromCurrency!.currencyId, toCurrencyId: self.toCurrency!.currencyId, fromAmount: self.currentSellAmount,
+                                                                         toAmount: self.currentBuyAmount, exchangeRate: self.currentExchangeRate, creatorId: self.user!.id)) { result in
+                    switch result {
+                    case .success(let data):
+                        DispatchQueue.main.async { [weak self] in
+                            guard let self = self else { return }
+                            self.requestCompletion(offer: data)
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
         }
     }
     
@@ -85,5 +119,9 @@ final class CreateViewController: UIViewController {
         self.user = user
         self.homeVC = homeVC
         viewModels.setupViews(parrent: view)
+    }
+    
+    @objc func didTapView() {
+        self.view.endEditing(true)
     }
 }

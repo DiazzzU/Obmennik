@@ -2,7 +2,7 @@ import UIKit
 
 extension CreateViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        // return NO to disallow editing.
+        currentOpenTextField = textField
         print("TextField should begin editing method called")
         return true
     }
@@ -37,6 +37,8 @@ extension CreateViewController: UITextFieldDelegate {
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        print("TextField should return method called")
         return true
     }
     
@@ -79,26 +81,6 @@ extension CreateViewController: UITextFieldDelegate {
             if changeLog.count == 3 {
                 recalculate()
             }
-        }
-
-        print("TextField should return method called")
-    }
-}
-
-extension CreateViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 5
-    }
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if component == 0 {
-            return "First \(row)"
-        } else {
-            return "Second \(row)"
         }
     }
 }
