@@ -35,8 +35,12 @@ class HomeViewController: UIViewController {
         viewModels.filterCollectionView.delegate = self
         viewModels.filterCollectionView.dataSource = self
         
-        navigationController?.navigationBar.barTintColor = ColorPalette.backgroundMain
-        
+        setupNavBar()
+    }
+    
+    // MARK: - Functions
+    
+    func setupNavBar() {
         let leftNegativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         leftNegativeSpacer.width = 18
         navigationItem.leftBarButtonItems = [leftNegativeSpacer, UIBarButtonItem(customView: viewModels.profileButton)]
@@ -44,9 +48,6 @@ class HomeViewController: UIViewController {
         rightNegativeSpacer.width = 16
         navigationItem.rightBarButtonItems = [rightNegativeSpacer, UIBarButtonItem(customView: viewModels.searchButton)]
     }
-    
-    
-    // MARK: - Functions
     
     func setupData() {
         

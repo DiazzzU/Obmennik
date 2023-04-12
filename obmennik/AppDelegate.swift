@@ -160,6 +160,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
+    func setupNavTabBars() {
+        if #available(iOS 15, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithOpaqueBackground()
+            navigationBarAppearance.backgroundColor = ColorPalette.backgroundMain
+            navigationBarAppearance.shadowColor = ColorPalette.backgroundMain
+            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
+            
+            let tabBarApperance = UITabBarAppearance()
+            tabBarApperance.configureWithOpaqueBackground()
+            tabBarApperance.backgroundColor = ColorPalette.backgroundMain
+            tabBarApperance.shadowColor = ColorPalette.backgroundMain
+            UITabBar.appearance().scrollEdgeAppearance = tabBarApperance
+            UITabBar.appearance().standardAppearance = tabBarApperance
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         guard let window = window else { return false }
@@ -173,6 +192,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         vc.view.backgroundColor = ColorPalette.backgroundMain
         window.rootViewController = vc
         window.makeKeyAndVisible()
+        
+        setupNavTabBars()
+        
         return true
     }
     

@@ -16,7 +16,6 @@ extension UIButton {
     }
     
     private func animate(_ button: UIButton, transform: CGAffineTransform) {
-        print("here")
         UIView.animate(withDuration: 0.4,
                        delay: 0,
                        usingSpringWithDamping: 0.5,

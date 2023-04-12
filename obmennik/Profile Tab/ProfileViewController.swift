@@ -22,6 +22,12 @@ final class ProfileVieewController: UIViewController {
     func setupNavBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewModels.backButton)
         navigationItem.titleView = viewModels.titleView
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = ColorPalette.backgroundMain
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     func renameUser(newUser: UserStruct) {

@@ -31,6 +31,8 @@
 		28501B3029E39D81000B9060 /* MessageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28501B2F29E39D81000B9060 /* MessageData.swift */; };
 		28501B3229E3A63C000B9060 /* ChatViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28501B3129E3A63C000B9060 /* ChatViewExtension.swift */; };
 		28537AD129E5370400FA1D15 /* SessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28537AD029E5370400FA1D15 /* SessionViewController.swift */; };
+		28537AD329E5FD1000FA1D15 /* ChatViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28537AD229E5FD1000FA1D15 /* ChatViewModels.swift */; };
+		28537AD529E66A9300FA1D15 /* SessionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28537AD429E66A9300FA1D15 /* SessionData.swift */; };
 		2898E52129CDEE210007AEC9 /* FilterCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2898E52029CDEE210007AEC9 /* FilterCellView.swift */; };
 		2898E52529CE74240007AEC9 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2898E52429CE74240007AEC9 /* UIColorExtension.swift */; };
 		2898E52929CE75C90007AEC9 /* OfferData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2898E52829CE75C90007AEC9 /* OfferData.swift */; };
@@ -113,6 +115,8 @@
 		28501B2F29E39D81000B9060 /* MessageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageData.swift; sourceTree = "<group>"; };
 		28501B3129E3A63C000B9060 /* ChatViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewExtension.swift; sourceTree = "<group>"; };
 		28537AD029E5370400FA1D15 /* SessionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionViewController.swift; sourceTree = "<group>"; };
+		28537AD229E5FD1000FA1D15 /* ChatViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModels.swift; sourceTree = "<group>"; };
+		28537AD429E66A9300FA1D15 /* SessionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionData.swift; sourceTree = "<group>"; };
 		2898E52029CDEE210007AEC9 /* FilterCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCellView.swift; sourceTree = "<group>"; };
 		2898E52429CE74240007AEC9 /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		2898E52829CE75C90007AEC9 /* OfferData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfferData.swift; sourceTree = "<group>"; };
@@ -275,6 +279,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		28537AD629E66CF400FA1D15 /* Session Tab */ = {
+			isa = PBXGroup;
+			children = (
+				28537AD029E5370400FA1D15 /* SessionViewController.swift */,
+			);
+			path = "Session Tab";
+			sourceTree = "<group>";
+		};
 		2898E52229CE71D00007AEC9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -309,6 +321,7 @@
 				2898E52C29CE7AD40007AEC9 /* CurrencyData.swift */,
 				2898E52E29CE7B020007AEC9 /* UserData.swift */,
 				28501B2F29E39D81000B9060 /* MessageData.swift */,
+				28537AD429E66A9300FA1D15 /* SessionData.swift */,
 			);
 			path = DataStructs;
 			sourceTree = "<group>";
@@ -381,6 +394,7 @@
 		28BB4AD129C87E0200380DEF /* obmennik */ = {
 			isa = PBXGroup;
 			children = (
+				28537AD629E66CF400FA1D15 /* Session Tab */,
 				28E9A95A29E3579C003EFD99 /* Chat Tab */,
 				2899B64029DF8AEB0047DFEE /* Extensions */,
 				2899B63B29DF424D0047DFEE /* Profile Tab */,
@@ -422,7 +436,7 @@
 			children = (
 				28E9A95B29E357F3003EFD99 /* ChatViewController.swift */,
 				28501B3129E3A63C000B9060 /* ChatViewExtension.swift */,
-				28537AD029E5370400FA1D15 /* SessionViewController.swift */,
+				28537AD229E5FD1000FA1D15 /* ChatViewModels.swift */,
 			);
 			path = "Chat Tab";
 			sourceTree = "<group>";
@@ -699,6 +713,7 @@
 				28537AD129E5370400FA1D15 /* SessionViewController.swift in Sources */,
 				283537B829D0EFD2009F4722 /* HTTPRequest.swift in Sources */,
 				2899B64929DFA66F0047DFEE /* PanelTransition.swift in Sources */,
+				28537AD529E66A9300FA1D15 /* SessionData.swift in Sources */,
 				283537B929D0EFD2009F4722 /* HTTPNetworkResponse.swift in Sources */,
 				283537A329CF63FB009F4722 /* CreateViewExtensions.swift in Sources */,
 				2898E52B29CE7A5F0007AEC9 /* CurrencyElements.swift in Sources */,
@@ -738,6 +753,7 @@
 				28501B3229E3A63C000B9060 /* ChatViewExtension.swift in Sources */,
 				283537B629D0EFD2009F4722 /* NetworkClient.swift in Sources */,
 				2899B63729DED61F0047DFEE /* EditViewExtension.swift in Sources */,
+				28537AD329E5FD1000FA1D15 /* ChatViewModels.swift in Sources */,
 				28BB4B1529C9CFAB00380DEF /* ColorPalette.swift in Sources */,
 				283537C629D0EFE7009F4722 /* NetworkTodoItem.swift in Sources */,
 				2899B64429DF8BA70047DFEE /* UINavigationControllerExtension.swift in Sources */,

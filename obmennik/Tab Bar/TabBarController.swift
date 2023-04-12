@@ -22,7 +22,6 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
         tabBar.layer.borderWidth = 1
         tabBar.layer.borderColor = ColorPalette.line.cgColor
-        tabBar.backgroundColor = ColorPalette.backgroundMain
         tabBar.unselectedItemTintColor = ColorPalette.unselectedElement
         tabBar.tintColor = .white
         tabBar.layer.cornerRadius = 32
@@ -45,7 +44,8 @@ final class TabBarController: UITabBarController {
         
         homeVC = HomeViewController()
         setupHomeVC()
-        let navVC1 = UINavigationController(rootViewController: homeVC!)
+        let navVC1 = UINavigationController()
+        navVC1.pushViewController(homeVC!, animated: true)
         
         let sessionVC = SessionViewController()
         let navVC2 = UINavigationController(rootViewController: sessionVC)
