@@ -31,9 +31,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let vc = OfferViewController()
         switch tableView.tag {
         case 1:
-            vc.setupLayers(homeVC: self, user: user!, data: offers[indexPath.row])
+            vc.setupData(homeVC: self, offer: offers[indexPath.row])
         case 2:
-            vc.setupLayers(homeVC: self, user: user!, data: watchList[indexPath.row])
+            vc.setupData(homeVC: self, offer: watchList[indexPath.row])
         default: break
         }
         let navVC = UINavigationController(rootViewController: vc)

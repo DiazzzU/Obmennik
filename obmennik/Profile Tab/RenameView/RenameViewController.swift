@@ -47,7 +47,7 @@ class RenameViewController: UIViewController {
                 case .success(let data):
                     DispatchQueue.main.async { [weak self] in
                         guard let self = self else { return }
-                        self.requestCompletion(user: UserStruct(name: data.user_name, rating: data.user_rating, id: data.user_id))
+                        self.requestCompletion(user: UserStruct(data: data))
                     }
                 case .failure(let error):
                     print(error)

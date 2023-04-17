@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "CAB53BC6-6448-4A9B-BA34-EFD24780B2FF"
-   type = "1"
+   uuid = "7D750948-84A8-4FF4-8511-7F6217D6BA61"
+   type = "0"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2DB11EB6-19CB-43A2-92A1-75E41318E7AB"
+            uuid = "180AA7D3-6B47-49D1-9E60-0CB35FC53031"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "obmennik/TabBarController.swift"
+            filePath = "obmennik/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "setupImages()"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "setupData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B05F0EE3-766A-4F23-8282-950591213A58"
+            uuid = "86CA0482-774A-4C7D-AFB2-22402B832BB7"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "obmennik/Home View/FilterButtonView.swift"
+            filePath = "obmennik/AppDelegate.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "init(name:)"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "setupData()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

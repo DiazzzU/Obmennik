@@ -15,7 +15,7 @@ extension ProfileVieewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(userOffers[indexPath.row])
         let vc = OfferViewController()
-        vc.setupLayers(homeVC: homeVC!, user: user!, data: userOffers[indexPath.row])
+        vc.setupData(homeVC: homeVC!, offer: userOffers[indexPath.row])
         let navVC = UINavigationController(rootViewController: vc)
         self.present(navVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)

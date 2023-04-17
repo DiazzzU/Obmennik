@@ -137,11 +137,12 @@ final class EditViewController: UIViewController {
     func requestCompletion(offer: OfferQuery) {
         let offerStruct = OfferStruct(offerId: offer.offerId, fromCurrency: fromCurrency!, toCurrency: toCurrency!,
                                       amountToBuy: offer.toAmount, amountToSell: offer.fromAmount,
-                                      creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id), isInWatchList: offer.isOnWatchlist)
+                                      creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id, closedSessions: offer.creator.closed_sessions),
+                                      isInWatchList: offer.isOnWatchlist)
         homeVC?.removeOffer(offerId: offer.offerId)
         homeVC?.addOffers(offer: offerStruct)
         homeVC?.viewModels.offerTableView.reloadData()
-        offerVC?.setupLayers(homeVC: homeVC!, user: user!, data: offerStruct)
+        offerVC?.setupData(homeVC: homeVC!, offer: offerStruct)
         
         self.navigationController?.popViewController(animated:true)
     }

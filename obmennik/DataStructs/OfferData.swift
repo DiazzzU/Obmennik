@@ -53,4 +53,26 @@ struct OfferStruct {
         self.creator = creator
         self.isInWatchlist = isInWatchList
     }
+    
+    init(offer: OfferQuery, currencies: [CurrencyStruct]) {
+        var fromCurrency: CurrencyStruct? = nil
+        var toCurrency: CurrencyStruct? = nil
+        for currency in currencies {
+            if currency.currencyId == offer.fromCurrencyId {
+                fromCurrency = currency
+            }
+            if currency.currencyId == offer.toCurrencyId {
+                toCurrency = currency
+            }
+        }
+        
+        self.offerId = offer.offerId
+        self.fromCurrency = fromCurrency!
+        self.toCurrency = toCurrency!
+        self.amountToBuy = offer.toAmount
+        self.amountToSell = offer.fromAmount
+        self.exchangeRate = offer.exchangeRate
+        self.creator = UserStruct(data: offer.creator)
+        self.isInWatchlist = offer.isOnWatchlist
+    }
 }

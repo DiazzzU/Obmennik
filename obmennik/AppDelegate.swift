@@ -14,35 +14,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             guard let self = self else { return }
             let group = DispatchGroup()
             
+            var userId: Int? = nil
             var user: UserStruct? = nil
             var currencies: [CurrencyStruct] = []
             var offers: [OfferStruct] = []
             var watchlist: [OfferStruct] = []
             var userOffers: [OfferStruct] = []
+            var sessions: [SessionStruct] = []
             
             let defaults = UserDefaults.standard
-            if let savedPerson = defaults.object(forKey: "SavedUser") as? Data {
-                let decoder = JSONDecoder()
-                if let loadedPerson = try? decoder.decode(UserStruct.self, from: savedPerson) {
-                    user = loadedPerson
-                }
-            }
-            if user == nil {
+            
+            
+            userId = defaults.integer(forKey: "SavedUserId")
+            
+            if userId == 0 {
                 group.enter()
                 self.networkService!.createUser { result in
                     switch result {
                     case .success(let data):
-                        user = UserStruct(name: data.user_name, rating: data.user_rating, id: data.user_id)
-                        let encoder = JSONEncoder()
-                        if let encoded = try? encoder.encode(user) {
-                            let defaults = UserDefaults.standard
-                            defaults.set(encoded, forKey: "SavedUser")
-                        }
+                        user = UserStruct(data: data)
+                        userId = user!.id
+                        defaults.set(user!.id, forKey: "SavedUserId")
                     case .failure(let error):
                         print(error)
                     }
                     group.leave()
                 }
+                group.wait()
+            }
+            
+            if user == nil {
+                group.enter()
+                self.networkService!.userInfo(userId: userId!) { result in
+                    switch result {
+                    case .success(let data):
+                        user = UserStruct(data: data)
+                    case .failure(let error):
+                        print(error)
+                    }
+                    group.leave()
+                }
+                group.wait()
             }
         
             group.enter()
@@ -58,7 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
                 group.leave()
             }
-            
             group.wait()
             
             group.enter()
@@ -66,21 +77,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch result {
                 case .success(let data):
                     for offer in data {
-                        
-                        var fromCurrency: CurrencyStruct? = nil
-                        var toCurrency: CurrencyStruct? = nil
-                        for currency in currencies {
-                            if currency.currencyId == offer.fromCurrencyId {
-                                fromCurrency = currency
-                            }
-                            if currency.currencyId == offer.toCurrencyId {
-                                toCurrency = currency
-                            }
-                        }
-                        
-                        offers.append(OfferStruct(offerId: offer.offerId, fromCurrency: fromCurrency!, toCurrency: toCurrency!,
-                                                  amountToBuy: offer.toAmount, amountToSell: offer.fromAmount,
-                                                  creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id), isInWatchList: offer.isOnWatchlist))
+                        offers.append(OfferStruct(offer: offer, currencies: currencies))
                     }
                 case .failure(let error):
                     print(error)
@@ -93,21 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch result {
                 case .success(let data):
                     for offer in data {
-                        
-                        var fromCurrency: CurrencyStruct? = nil
-                        var toCurrency: CurrencyStruct? = nil
-                        for currency in currencies {
-                            if currency.currencyId == offer.fromCurrencyId {
-                                fromCurrency = currency
-                            }
-                            if currency.currencyId == offer.toCurrencyId {
-                                toCurrency = currency
-                            }
-                        }
-                        
-                        watchlist.append(OfferStruct(offerId: offer.offerId, fromCurrency: fromCurrency!, toCurrency: toCurrency!,
-                                                  amountToBuy: offer.toAmount, amountToSell: offer.fromAmount,
-                                                  creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id), isInWatchList: offer.isOnWatchlist))
+                        watchlist.append(OfferStruct(offer: offer, currencies: currencies))
                     }
                 case .failure(let error):
                     print(error)
@@ -120,21 +103,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch result {
                 case .success(let data):
                     for offer in data {
-                        
-                        var fromCurrency: CurrencyStruct? = nil
-                        var toCurrency: CurrencyStruct? = nil
-                        for currency in currencies {
-                            if currency.currencyId == offer.fromCurrencyId {
-                                fromCurrency = currency
-                            }
-                            if currency.currencyId == offer.toCurrencyId {
-                                toCurrency = currency
-                            }
-                        }
-                        
-                        userOffers.append(OfferStruct(offerId: offer.offerId, fromCurrency: fromCurrency!, toCurrency: toCurrency!,
-                                                  amountToBuy: offer.toAmount, amountToSell: offer.fromAmount,
-                                                  creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id), isInWatchList: offer.isOnWatchlist))
+                        userOffers.append(OfferStruct(offer: offer, currencies: currencies))
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+                group.leave()
+            }
+            
+            group.enter()
+            self.networkService!.getSessionList(userId: user!.id) { result in
+                switch result {
+                case .success(let data):
+                    for session in data {
+                        sessions.append(SessionStruct(session: session, currencies: currencies))
                     }
                 case .failure(let error):
                     print(error)
@@ -149,13 +131,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(userOffers)
             print(user)
             print(currencies)
+            print(sessions)
             
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.tabBar.setupTabBar(user: user!, currencies: currencies, offers: offers, watchlist: watchlist, userOffers: userOffers)
-                //let chatVC = ChatViewController()
-                //let navVC = UINavigationController(rootViewController: chatVC)
-                self.window?.rootViewController = self.tabBar
+                self.tabBar.setupTabBar(user: user!, currencies: currencies, offers: offers, watchlist: watchlist, userOffers: userOffers, sessions: sessions)
+                
+                let navVC = UINavigationController(rootViewController: self.tabBar)
+                self.window?.rootViewController = navVC
+                self.socketConnect(user: user!)
+                //self.getData()
             }
         }
     }
@@ -178,6 +163,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UITabBar.appearance().standardAppearance = tabBarApperance
         }
     }
+    
+    func socketConnect(user: UserStruct) {
+        WSManager.shared.connectToWebSocket(user: user, tabBarController: self.tabBar)
+    }
+    
+    func getData() {
+        
+    }
+    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)

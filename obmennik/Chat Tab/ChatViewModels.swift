@@ -5,6 +5,35 @@ class ChatViewModels {
         return setupBackButton(tag: 0)
     }()
     
+    lazy var menuButton: UIButton = {
+        let button = UIButton()
+        //button.overrideUserInterfaceStyle = .dark
+        button.setImage(UIImage(named: "menu"), for: .normal)
+        //button.showsMenuAsPrimaryAction = true
+        //button.menu = menuView
+        return button
+    }()
+    
+    lazy var menuView: UIMenu = {
+        let menu = UIMenu(children: [offerAction, closeSessionAction])
+        menu.accessibilityFrame = CGRect(x: 0, y: 0, width: 50, height: 100)
+        return menu
+    }()
+    
+    lazy var offerAction: UIAction = {
+        let offerAction = UIAction(title: "Offer", attributes: [], state: .off) { action in
+            print("offer")
+        }
+        return offerAction
+    }()
+    
+    lazy var closeSessionAction: UIAction = {
+        let closeSessionAction = UIAction(title: "Close session", attributes: [.destructive], state: .off) { action in
+            print("close session")
+        }
+        return closeSessionAction
+    }()
+    
     lazy var rateView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false

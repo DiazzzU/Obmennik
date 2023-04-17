@@ -2,22 +2,6 @@ import UIKit
 
 
 class HomeViewModels: HIG {
-    lazy var profileButton: UIButton = {
-        let b = UIButton(type: .system)
-        b.setImage(UIImage(named: "userProfileLogo"), for: .normal)
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.layer.cornerRadius = 12
-        return b
-    }()
-    
-    lazy var searchButton: UIButton = {
-        let b = UIButton(type: .system)
-        b.setImage(UIImage(named: "search"), for: .normal)
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.layer.cornerRadius = 12
-        return b
-    }()
-    
     lazy var offerTableView: UITableView = {
         let t = UITableView()
         t.tag = 1
@@ -122,9 +106,6 @@ class HomeViewModels: HIG {
         
         
         NSLayoutConstraint.activate([
-            profileButton.widthAnchor.constraint(equalToConstant: 24),
-            profileButton.heightAnchor.constraint(equalToConstant: 24),
-            
             //searchButton.widthAnchor.constraint(equalToConstant: 24),
             //searchButton.heightAnchor.constraint(equalToConstant: 24),
             //searchButton.topAnchor.constraint(equalTo: parrent.safeAreaLayoutGuide.topAnchor, constant: 2),

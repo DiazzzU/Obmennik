@@ -22,6 +22,8 @@ final class CreateViewController: UIViewController {
     
     var currentOpenTextField: UITextField? = nil
     
+    // MARK - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = ColorPalette.backgroundMain
@@ -43,52 +45,43 @@ final class CreateViewController: UIViewController {
         viewModels.createButton.addTarget(self, action: #selector(handleCreateButton), for: .touchUpInside)
         
         viewModels.closeButton.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
+        
+        viewModels.setupViews(parrent: view)
     }
     
-    @objc func handleRateChange() {
-        if viewModels.rightArrow.textColor == .white {
-            viewModels.rightArrow.textColor = ColorPalette.secondaryOfferColor
-            viewModels.leftArrow.textColor = .white
-        } else {
-            viewModels.rightArrow.textColor = .white
-            viewModels.leftArrow.textColor = ColorPalette.secondaryOfferColor
-        }
-        viewModels.changeRateState(rateField: viewModels.fromRateField)
-        viewModels.changeRateState(rateField: viewModels.toRateField)
+    // MARK - Setup
+    
+    func setupLayers(homeVC: HomeViewController) {
+        self.user = homeVC.user
+        self.homeVC = homeVC
     }
     
-    @objc func handleCloseButton() {
-        self.dismiss(animated: true, completion: nil)
-    }
+    // MARK - Functions
     
     func requestCompletion(offer: OfferQuery) {
         homeVC?.addOffers(offer: OfferStruct(offerId: offer.offerId, fromCurrency: fromCurrency!, toCurrency: toCurrency!,
                                              amountToBuy: offer.toAmount, amountToSell: offer.fromAmount,
-                                             creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id), isInWatchList: offer.isOnWatchlist))
+                                             creator: UserStruct(name: offer.creator.user_name, rating: offer.creator.user_rating, id: offer.creator.user_id, closedSessions: offer.creator.closed_sessions),
+                                             isInWatchList: offer.isOnWatchlist))
         homeVC?.viewModels.offerTableView.reloadData()
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func handleCreateButton() {
-        fromCurrency = homeVC?.getCurrency(capitalName: currentFromCurrency)
-        toCurrency = homeVC?.getCurrency(capitalName: currentToCurrency)
-        
-        if fromCurrency != nil && toCurrency != nil {
-            networkClient = NetworkClientImp(urlSession: .init(configuration: .default))
-            networkService = NetworkServiceImp(networkClient: networkClient!)
-            DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-                guard let self = self else { return }
-                self.networkService!.createOffer(offer: OfferCreateQuery(fromCurrencyId: self.fromCurrency!.currencyId, toCurrencyId: self.toCurrency!.currencyId, fromAmount: self.currentSellAmount,
-                                                                         toAmount: self.currentBuyAmount, exchangeRate: self.currentExchangeRate, creatorId: self.user!.id)) { result in
-                    switch result {
-                    case .success(let data):
-                        DispatchQueue.main.async { [weak self] in
-                            guard let self = self else { return }
-                            self.requestCompletion(offer: data)
-                        }
-                    case .failure(let error):
-                        print(error)
+    func createOfferRequest() {
+        networkClient = NetworkClientImp(urlSession: .init(configuration: .default))
+        networkService = NetworkServiceImp(networkClient: networkClient!)
+        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            guard let self = self else { return }
+            self.networkService!.createOffer(offer: OfferCreateQuery(fromCurrencyId: self.fromCurrency!.currencyId, toCurrencyId: self.toCurrency!.currencyId, fromAmount: self.currentSellAmount,
+                                                                     toAmount: self.currentBuyAmount, exchangeRate: self.currentExchangeRate, creatorId: self.user!.id)) { result in
+                switch result {
+                case .success(let data):
+                    DispatchQueue.main.async { [weak self] in
+                        guard let self = self else { return }
+                        self.requestCompletion(offer: data)
                     }
+                case .failure(let error):
+                    print(error)
                 }
             }
         }
@@ -115,13 +108,34 @@ final class CreateViewController: UIViewController {
         }
     }
     
-    func setupLayers(homeVC: HomeViewController, user: UserStruct) {
-        self.user = user
-        self.homeVC = homeVC
-        viewModels.setupViews(parrent: view)
+    // MARK - ButtonActions
+    
+    @objc func handleCloseButton() {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func handleCreateButton() {
+        fromCurrency = homeVC?.getCurrency(capitalName: currentFromCurrency)
+        toCurrency = homeVC?.getCurrency(capitalName: currentToCurrency)
+        
+        if fromCurrency != nil && toCurrency != nil {
+            createOfferRequest()
+        }
     }
     
     @objc func didTapView() {
         self.view.endEditing(true)
+    }
+    
+    @objc func handleRateChange() {
+        if viewModels.rightArrow.textColor == .white {
+            viewModels.rightArrow.textColor = ColorPalette.secondaryOfferColor
+            viewModels.leftArrow.textColor = .white
+        } else {
+            viewModels.rightArrow.textColor = .white
+            viewModels.leftArrow.textColor = ColorPalette.secondaryOfferColor
+        }
+        viewModels.changeRateState(rateField: viewModels.fromRateField)
+        viewModels.changeRateState(rateField: viewModels.toRateField)
     }
 }

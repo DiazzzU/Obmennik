@@ -1,8 +1,14 @@
 import UIKit
 
 class PanelTransition: NSObject, UIViewControllerTransitioningDelegate {
+    var viewHeight: CGFloat = 300
+    
+    init(height: CGFloat) {
+        self.viewHeight = height
+    }
+    
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return PresentationController(presentedViewController: presented, presenting: presenting ?? source)
+        return PresentationController(presentedViewController: presented, presenting: presenting ?? source, height: self.viewHeight)
     }
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PresentAnimation()
@@ -13,6 +19,13 @@ class PanelTransition: NSObject, UIViewControllerTransitioningDelegate {
 }
     
 class PresentationController: UIPresentationController {
+    var height: CGFloat = 0
+    
+    init(presentedViewController: UIViewController, presenting: UIViewController?, height: CGFloat) {
+        super.init(presentedViewController: presentedViewController, presenting: presenting)
+        self.height = height
+    }
+    
     private lazy var dimmView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(white: 0, alpha: 0.3)
@@ -22,7 +35,7 @@ class PresentationController: UIPresentationController {
     
     override var frameOfPresentedViewInContainerView: CGRect {
         let bounds = containerView!.bounds
-        return CGRect(x: 0, y: bounds.height - 300, width: bounds.width, height: 300)
+        return CGRect(x: 0, y: bounds.height - self.height, width: bounds.width, height: self.height)
     }
     override func presentationTransitionWillBegin() {
         super.presentationTransitionWillBegin()

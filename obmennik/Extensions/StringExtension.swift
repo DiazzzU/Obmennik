@@ -11,5 +11,18 @@ extension String {
     var floatValue: Float {
         return (self as NSString).floatValue
     }
-    
+    var integerValue: Int {
+        return (self as NSString).integerValue
+    }
+    func toDictionary() -> [String:AnyObject]? {
+        if let data = self.data(using: .utf8) {
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String:AnyObject]
+                return json
+            } catch {
+                print("Something went wrong")
+            }
+        }
+        return nil
+    }
 }

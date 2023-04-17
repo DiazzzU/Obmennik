@@ -51,11 +51,13 @@ extension ChatViewController: MessageCellDelegate {
 
 extension ChatViewController: InputBarAccessoryViewDelegate {
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
-        let message = MessageStruct(sender: selfSender, messageId: UUID().uuidString, sentDate: Date(), kind: .text(text))
-        insertMessage(message: message)
+        let message = MessageStruct(sender: selfSender, messageId: "-1", sentDate: Date(), kind: .text(text), sessionId: self.session!.id)
+        if messages.count == 0 {
+            createNewSessionRequest(message: message)
+        } else {
+            sendMessageRequest(message: message)
+        }
         inputBar.inputTextView.text = ""
-        messagesCollectionView.reloadData()
-        messagesCollectionView.scrollToLastItem(at: .bottom, animated: true)
     }
 }
 

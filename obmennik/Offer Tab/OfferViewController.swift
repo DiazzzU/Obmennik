@@ -16,9 +16,12 @@ final class OfferViewController: UIViewController {
         viewModels.closeButton.addTarget(self, action: #selector(handleCloseButton), for: .touchUpInside)
         viewModels.watchListButton.addTarget(self, action: #selector(handleWatchListButton), for: .touchUpInside)
         viewModels.editButton.addTarget(self, action: #selector(handleEditButton), for: .touchUpInside)
+        viewModels.startChatButton.addTarget(self, action: #selector(handleStartMessageButton), for: .touchUpInside)
         
         viewModels.editButton.startAnimatingPressActions()
         viewModels.watchListButton.startAnimatingPressActions()
+        
+        setupNavBarItems()
     }
     
     
@@ -43,40 +46,25 @@ final class OfferViewController: UIViewController {
         if viewModels.watchListButton.tag == 2 {
             self.sendAddWatchlistRequest()
             offer!.isInWatchlist = true
-            for i in 0..<homeVC!.offers.count{
-                if (homeVC!.offers[i].offerId == offer?.offerId) {
-                    homeVC!.offers[i].isInWatchlist = true
-                    break
-                }
-            }
-            
-            homeVC!.watchList.append(offer!)
-            homeVC!.viewModels.watchlistTableView.reloadData()
+            homeVC!.addWatchlist(offer: offer!)
         } else {
             self.sendRemoveWatchlistRequest()
             offer!.isInWatchlist = false
-            for i in 0..<homeVC!.offers.count {
-                if (homeVC!.offers[i].offerId == offer?.offerId) {
-                    homeVC!.offers[i].isInWatchlist = false
-                    break
-                }
-            }
-            for i in 0..<homeVC!.watchList.count {
-                if (homeVC!.watchList[i].offerId == offer?.offerId) {
-                    homeVC!.watchList.remove(at: i)
-                    break
-                }
-            }
-            homeVC!.viewModels.watchlistTableView.reloadData()
+            homeVC!.removeWatchlist(offer: offer!)
         }
         viewModels.changeWatchListButtonState()
     }
     
     @objc func handleEditButton() {
         let vc = EditViewController()
-        //vc.setupLayer(homeVC: homeVC!, user: user!, offer: offer!)
         navigationController?.pushViewController(vc, animated: true)
         vc.setupLayer(homeVC: homeVC!, offerVC: self, user: user!, offer: offer!)
+    }
+    
+    @objc func handleStartMessageButton() {
+        self.dismiss(animated: true) {
+            self.homeVC!.startMessage(offer: self.offer!)
+        }
     }
     
     // Setup
@@ -85,11 +73,10 @@ final class OfferViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewModels.closeButton)
     }
     
-    func setupLayers(homeVC: HomeViewController, user: UserStruct, data: OfferStruct) {
-        self.user = user
+    func setupData(homeVC: HomeViewController, offer: OfferStruct) {
+        self.user = homeVC.user
         self.homeVC = homeVC
-        self.offer = data
-        setupNavBarItems()
+        self.offer = offer
         viewModels.setupViews(parrent: view, data: self.offer!, user: self.user!)
     }
 }

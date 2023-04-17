@@ -3,12 +3,17 @@ import UIKit
 final class TabBarController: UITabBarController {
     
     var homeVC: HomeViewController? = nil
-    var chatVC: ChatViewController? = nil
+    var sessionVC: SessionViewController? = nil
+    var profileVC = ProfileVieewController()
+    
     var user: UserStruct? = nil
     var currencies: [CurrencyStruct] = []
     var offers: [OfferStruct] = []
     var watchlist: [OfferStruct] = []
     var userOffers: [OfferStruct] = []
+    var sessions: [SessionStruct] = []
+    
+    var viewModels = TabBarModels()
     
     private lazy var createButton: UIButton = {
         let middleButton = UIButton()
@@ -31,31 +36,71 @@ final class TabBarController: UITabBarController {
     @objc func didCreateOfferButtonPressed() {
         //createButton.backgroundColor = .green
         let vc = CreateViewController()
-        vc.setupLayers(homeVC: homeVC!, user: user!)
+        vc.setupLayers(homeVC: homeVC!)
         self.present(vc, animated: true)
     }
     
-    func setupTabBar(user: UserStruct, currencies: [CurrencyStruct], offers: [OfferStruct], watchlist: [OfferStruct], userOffers: [OfferStruct]) {
+    func setupTabBar(user: UserStruct, currencies: [CurrencyStruct], offers: [OfferStruct], watchlist: [OfferStruct], userOffers: [OfferStruct], sessions: [SessionStruct]) {
         self.user = user
         self.currencies = currencies
         self.offers = offers
         self.watchlist = watchlist
         self.userOffers = userOffers
+        self.sessions = sessions
+        
+        self.sessions.sort { $0.lastMessage < $1.lastMessage}
         
         homeVC = HomeViewController()
         setupHomeVC()
-        let navVC1 = UINavigationController()
-        navVC1.pushViewController(homeVC!, animated: true)
         
-        let sessionVC = SessionViewController()
-        let navVC2 = UINavigationController(rootViewController: sessionVC)
-        setupChatVC()
+        sessionVC = SessionViewController()
+        setupSessionVC()
         
-        let viewControllers = [navVC1, navVC2]
+        let viewControllers = [homeVC!, sessionVC!]
         setViewControllers(viewControllers, animated: true)
         
+        setupNavBar()
+        setupButtons()
         setupImages()
         setupUI()
+    }
+    
+    func addSession(session: SessionQuery) {
+        sessions.append(SessionStruct(session: session, currencies: self.currencies))
+        sessions.sort { $0.lastMessage < $1.lastMessage}
+        sessionVC!.updateSessions(sessions: sessions)
+    }
+    
+    func addMessage(message: MessageQuery) {
+        for i in 0..<sessions.count {
+            if sessions[i].id == message.messageSessionId {
+                sessions[i].messages.append(MessageStruct(message: message))
+                sessions[i].messages.sort {$0.sentDate < $1.sentDate}
+                break
+            }
+        }
+        sessionVC!.updateSessions(sessions: sessions)
+        sessionVC!.newMessage(message: MessageStruct(message: message))
+    }
+    
+    func closeSession(sessionId: Int) {
+        for i in 0..<sessions.count {
+            if sessions[i].id == sessionId {
+                sessions[i].state = .closed
+                break
+            }
+        }
+        sessionVC!.updateSessions(sessions: sessions)
+        sessionVC!.closeSession(sessionId: sessionId)
+    }
+    
+    func setupNavBar() {
+        let leftNegativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        leftNegativeSpacer.width = 18
+        navigationItem.leftBarButtonItems = [leftNegativeSpacer, UIBarButtonItem(customView: viewModels.profileButton)]
+        let rightNegativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        rightNegativeSpacer.width = 16
+        navigationItem.rightBarButtonItems = [rightNegativeSpacer, UIBarButtonItem(customView: viewModels.searchButton)]
     }
     
     func setupUI() {
@@ -71,11 +116,12 @@ final class TabBarController: UITabBarController {
         ])
     }
     
-    func setupChatVC() {
+    func setupSessionVC() {
+        self.sessionVC!.setupData(tabBarController: self)
     }
     
     func setupHomeVC() {
-        homeVC!.setupLayers(user: user!, currencies: self.currencies, offers: self.offers, watchlist: self.watchlist, userOffers: self.userOffers)
+        self.homeVC!.setupData(tabBarController: self)
     }
     
     private func setupImages() {
@@ -95,6 +141,15 @@ final class TabBarController: UITabBarController {
                 break
             }
         }
+    }
+    
+    func setupButtons() {
+        viewModels.profileButton.addTarget(self, action: #selector(handleProfileButton), for: .touchUpInside)
+    }
+    
+    @objc func handleProfileButton() {
+        profileVC.setupData(homeVC: homeVC!)
+        navigationController?.pushViewController(profileVC, animated: true)
     }
 }
 

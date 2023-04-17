@@ -109,6 +109,67 @@ final class NetworkServiceImp: NetworkService {
             completion: completion
         )
     }
+    
+    func getSessionList(
+        userId: Int,
+        completion: @escaping (Result<[SessionQuery], Error>) -> Void
+    ) {
+        networkClient.processRequest(
+            request: createGetSessionListRequest(userId: userId),
+            completion: completion
+        )
+    }
+    
+    func createSession(
+        session: SessionCreateQuery,
+        completion: @escaping (Result<[String], Error>) -> Void
+    ) {
+        networkClient.processRequest(
+            request: createCreateSessionRequest(session: session),
+            completion: completion
+        )
+    }
+    
+    func sendMessage(
+        message: MessageCreateQuery,
+        completion: @escaping (Result<[String], Error>) -> Void
+    ) {
+        networkClient.processRequest(
+            request: createSendMessageRequest(message: message),
+            completion: completion
+        )
+    }
+    
+    func closeSession(
+        sessionId: Int,
+        completion: @escaping (Result<[String], Error>) -> Void
+    ) {
+        networkClient.processRequest(
+            request: createCloseSessionRequest(sessionId: sessionId),
+            completion: completion
+        )
+    }
+    
+    func userInfo(
+        userId: Int,
+        completion: @escaping (Result<UserCreateQuery, Error>) -> Void
+    ) {
+        networkClient.processRequest(
+            request: createUserInfoRequest(userId: userId),
+            completion: completion
+        )
+    }
+    
+    func updateRating(
+        userId: Int,
+        newRating: Float,
+        completion: @escaping (Result<String, Error>) -> Void
+    ) {
+        networkClient.processRequest(
+            request: createUpdateRatingRequest(userId: userId, newRating: newRating),
+            completion: completion
+        )
+    }
 
     // MARK: - Private
 
@@ -220,6 +281,76 @@ final class NetworkServiceImp: NetworkService {
                 Constants.contentTypeKey: Constants.contentTypeValue
             ],
             queryItems: [(key: "userId", value: "\(userId)"), (key: "newName", value: "\(newName)")],
+            httpMethod: .post
+        )
+    }
+    
+    private func createGetSessionListRequest(userId: Int) -> HTTPRequest {
+        HTTPRequest(
+            route: "\(Constants.baseurl)/session/list/",
+            headers: [
+                Constants.contentTypeKey: Constants.contentTypeValue
+            ],
+            queryItems: [(key: "userId", value: "\(userId)")],
+            httpMethod: .get
+        )
+    }
+    
+    private func createCreateSessionRequest(session: SessionCreateQuery) -> HTTPRequest {
+        let encoder = JSONEncoder()
+        let sessionData = try? encoder.encode(session)
+        return HTTPRequest(
+            route: "\(Constants.baseurl)/session/create/",
+            headers: [
+                Constants.contentTypeKey: Constants.contentTypeValue
+            ],
+            body: sessionData,
+            httpMethod: .post
+        )
+    }
+    
+    private func createSendMessageRequest(message: MessageCreateQuery) -> HTTPRequest {
+        let encoder = JSONEncoder()
+        let messageData = try? encoder.encode(message)
+        return HTTPRequest(
+            route: "\(Constants.baseurl)/session/sendMessage/",
+            headers: [
+                Constants.contentTypeKey: Constants.contentTypeValue
+            ],
+            body: messageData,
+            httpMethod: .post
+        )
+    }
+    
+    private func createCloseSessionRequest(sessionId: Int) -> HTTPRequest {
+        HTTPRequest(
+            route: "\(Constants.baseurl)/session/close/",
+            headers: [
+                Constants.contentTypeKey: Constants.contentTypeValue
+            ],
+            queryItems: [(key: "sessionId", value: "\(sessionId)")],
+            httpMethod: .post
+        )
+    }
+    
+    private func createUserInfoRequest(userId: Int) -> HTTPRequest {
+        HTTPRequest(
+            route: "\(Constants.baseurl)/user/info/",
+            headers: [
+                Constants.contentTypeKey: Constants.contentTypeValue
+            ],
+            queryItems: [(key: "userId", value: "\(userId)")],
+            httpMethod: .get
+        )
+    }
+    
+    private func createUpdateRatingRequest(userId: Int, newRating: Float) -> HTTPRequest {
+        HTTPRequest(
+            route: "\(Constants.baseurl)/user/updateRating/",
+            headers: [
+                Constants.contentTypeKey: Constants.contentTypeValue
+            ],
+            queryItems: [(key: "userId", value: "\(userId)"), (key: "newRating", value: "\(newRating)")],
             httpMethod: .post
         )
     }

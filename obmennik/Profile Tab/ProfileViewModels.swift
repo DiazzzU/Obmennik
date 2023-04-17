@@ -55,7 +55,7 @@ class ProfileViewModels {
         return view
     }()
     lazy var droppedOffersLabel: UILabel = {
-        let label = setupLabel(tag: 3, text: "Dropped offers")
+        let label = setupLabel(tag: 3, text: "Closeed sessions")
         label.font = .boldSystemFont(ofSize: 16)
         label.textColor = ColorPalette.secondaryOfferColor
         return label
@@ -129,6 +129,7 @@ class ProfileViewModels {
     
     func setupData(user: UserStruct) {
         titleLabel.text = user.name
+        droppedOffersNumber.text = "\(user.closedSessions)"
         ratingLabel.text = "\u{2606} " + user.rating.description
     }
     

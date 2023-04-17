@@ -8,6 +8,7 @@ final class ProfileVieewController: UIViewController {
     var viewModels: ProfileViewModels = ProfileViewModels()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         view.backgroundColor = ColorPalette.backgroundMain
         
         viewModels.backButton.addTarget(self, action: #selector(handleBackButton), for: .touchUpInside)
@@ -16,7 +17,8 @@ final class ProfileVieewController: UIViewController {
         viewModels.myOfferTableView.delegate = self
         viewModels.myOfferTableView.dataSource = self
         
-        super.viewDidLoad()
+        setupNavBar()
+        viewModels.setupLayers(parrent: view, user: self.user!)
     }
     
     func setupNavBar() {
@@ -43,17 +45,13 @@ final class ProfileVieewController: UIViewController {
         homeVC!.renameUser(newUser: newUser)
     }
     
-    func setupLayers(homeVC: HomeViewController, user: UserStruct, userOffers: [OfferStruct]) {
+    func setupData(homeVC: HomeViewController) {
         self.homeVC = homeVC
-        self.user = user
-        self.userOffers = userOffers
-        
-        setupNavBar()
-        
-        viewModels.setupLayers(parrent: view, user: user)
+        self.user = homeVC.user
+        self.userOffers = homeVC.userOffers
     }
     
-    private let transition = PanelTransition()
+    private let transition = PanelTransition(height: 300)
     
     @objc func handleBackButton() {
         navigationController?.popViewController(animated: true)
