@@ -6,7 +6,7 @@ Obmennik is an iOS application that helps peopleexchange money. Nowadays moving 
 
 ## Application demo
 
-![Demo](https://www.youtube.com/watch?v=NZHRXE1dSoQ)
+[Demo](https://www.youtube.com/watch?v=NZHRXE1dSoQ)
 
 ## To setup Backend
 
